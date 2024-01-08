@@ -11,7 +11,6 @@ import io.qameta.allure.Allure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.open;
 
 public class SpendingTest {
@@ -42,14 +41,16 @@ public class SpendingTest {
   )
   @Test
   void spendingShouldBeDeletedByButtonDeleteSpending(SpendJson spend) {
-    mainPage.selectSpend(spend);
 
-    Allure.step("Delete spending", () -> mainPage.pressDeleteSelected());
+    Allure.step("Select spending", () ->
+            mainPage.selectSpending(spend));
+
+    Allure.step("Delete spending", () ->
+            mainPage.pressDeleteSelected());
 
     Allure.step("Check that spending was deleted", () -> {
       mainPage
-          .spendings()
-          .shouldHave(size(0));
+          .spendingsShouldHaveSize(0);
     });
   }
 }

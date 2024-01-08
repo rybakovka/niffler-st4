@@ -1,17 +1,18 @@
 package guru.qa.niffler.page;
 
-import com.codeborne.selenide.ElementsCollection;
 import guru.qa.niffler.model.SpendJson;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage {
 
-    public MainPage selectSpend(SpendJson spend) {
-        spendings()
-                .find(text(spend.description()))
+    public MainPage selectSpending(SpendJson spending) {
+        $(".spendings-table tbody")
+                .$$("tr")
+                .find(text(spending.description()))
                 .$$("td")
                 .first()
                 .scrollIntoView(true)
@@ -24,15 +25,10 @@ public class MainPage {
         return this;
     }
 
-    public ElementsCollection spendings() {
-        return $(".spendings-table tbody")
-                .$$("tr");
+    public MainPage spendingsShouldHaveSize(int shouldSize) {
+         $(".spendings-table tbody")
+                .$$("tr")
+                .shouldHave(size(shouldSize));
+         return this;
     }
-
-//    public ElementsCollection spendings() {
-//        return $(".spendings-table tbody")
-//                .$$("tr")
-//                .find(text(spend.description()))
-//                .$$("td");
-//    }
 }
